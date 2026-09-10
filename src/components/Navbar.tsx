@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   return (
     <header className="fixed left-0 top-0 z-50 w-full border-b border-white/10 bg-[var(--obsidian-black)]/85 backdrop-blur-md transition-all duration-300">
       <div className="mx-auto flex h-[88px] max-w-[1360px] items-center justify-between px-10">
@@ -31,19 +34,10 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/students"
+            href="/learn"
             className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
           >
-            Students
-
-            <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          <Link
-            href="/enrollments"
-            className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
-          >
-            Enrollments
+            Learn
 
             <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
           </Link>
@@ -53,15 +47,6 @@ export default function Navbar() {
             className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
           >
             AI Tools
-
-            <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
-          </a>
-
-          <a
-            href="/learn"
-            className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
-          >
-            Learn
 
             <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
           </a>
