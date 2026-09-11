@@ -85,7 +85,7 @@ export default function About() {
 
             {/* Right - Stats */}
             <div className="grid grid-cols-2 gap-8">
-              <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300">
+              <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 hover:scale-105 transform">
                 <div className="text-5xl font-bold text-[var(--neon-red)] mb-4 group-hover:text-[var(--electric-orange)] transition-colors">
                   500+
                 </div>
@@ -94,7 +94,7 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300">
+              <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 hover:scale-105 transform">
                 <div className="text-5xl font-bold text-[var(--neon-red)] mb-4 group-hover:text-[var(--electric-orange)] transition-colors">
                   15+
                 </div>
@@ -103,7 +103,7 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300">
+              <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 hover:scale-105 transform">
                 <div className="text-5xl font-bold text-[var(--neon-red)] mb-4 group-hover:text-[var(--electric-orange)] transition-colors">
                   50+
                 </div>
@@ -112,7 +112,7 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300">
+              <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 hover:scale-105 transform">
                 <div className="text-5xl font-bold text-[var(--neon-red)] mb-4 group-hover:text-[var(--electric-orange)] transition-colors">
                   12k+
                 </div>
