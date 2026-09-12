@@ -15,8 +15,11 @@ type Course = {
 
 export default function CoursesPage() {
   const [courses, setCourses] = useState<Course[]>([]);
+  const [filteredCourses, setFilteredCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showOnlyPublished, setShowOnlyPublished] = useState(true);
 
   const [showForm, setShowForm] = useState(false);
   const [editingCourseId, setEditingCourseId] = useState<number | null>(null);
@@ -47,6 +50,24 @@ export default function CoursesPage() {
   useEffect(() => {
     loadCourses();
   }, []);
+
+  // Filter courses based on search and published status
+  useEffect(() => {
+    let filtered = courses;
+    
+    if (showOnlyPublished) {
+      filtered = filtered.filter(course => course.is_published);
+    }
+    
+    if (searchQuery.trim()) {
+      filtered = filtered.filter(course =>
+        course.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        course.description?.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    
+    setFilteredCourses(filtered);
+  }, [courses, searchQuery, showOnlyPublished]);
 
   function resetForm() {
     setName("");
