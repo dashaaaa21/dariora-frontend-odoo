@@ -1,134 +1,188 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import { apiFetch } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
     setError("");
     setLoading(true);
 
     try {
-      const response = await fetch("/api/login", {
+      await apiFetch("/api/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
+        body: JSON.stringify({
+          login,
+          password,
+        }),
       });
 
-      if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.error || "Login failed");
-      }
-
       router.push("/dashboard");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Invalid credentials");
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("Login failed");
+      }
     } finally {
       setLoading(false);
     }
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-[var(--obsidian-black)] flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        {/* Logo */}
-        <Link href="/" className="flex justify-center mb-12">
-          <img
-            src="/logo.png"
-            alt="DARIORA"
-            className="h-20 w-20 object-contain"
-          />
-        </Link>
+    <main className="min-h-[calc(100vh-88px)] bg-[#050505] text-[#f5f3f1]">
+      <div className="mx-auto grid min-h-[calc(100vh-88px)] max-w-[1360px] grid-cols-12 px-10">
 
-        {/* Heading */}
-        <div className="text-center mb-8">
-          <h1 className="headline-large mb-4">
-            WELCOME
-            <br />
-            <span className="text-[var(--neon-red)]">BACK</span>
-          </h1>
-          <p className="body-text">
-            Sign in to your DARIORA account
-          </p>
+        {/* LEFT */}
+        <div className="col-span-7 flex flex-col justify-between border-r border-white/10 py-16">
+
+          <div>
+            <div className="editorial-label text-[#66635f]">
+              DARIORA / ACCOUNT
+            </div>
+
+            <h1 className="display mt-16 max-w-[800px] text-[clamp(80px,9vw,145px)]">
+              WELCOME
+              <br />
+              <span className="text-[#ff3b16]">
+                BACK.
+              </span>
+            </h1>
+          </div>
+
+          <div className="max-w-[430px]">
+            <p className="text-[16px] leading-[1.6] text-[#a6a3a0]">
+              Continue your learning journey.
+              Access your courses, track your progress
+              and build with AI.
+            </p>
+
+            <div className="mt-8 editorial-label text-[#66635f]">
+              AI EDUCATION PLATFORM / 2026
+            </div>
+          </div>
+
         </div>
 
-        {/* Form Container */}
-        <div className="glass p-8 rounded-lg mb-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Email Input */}
-            <div>
-              <label className="tech-label block mb-2">Email</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full bg-[var(--deep-charcoal)] border border-white/10 text-[var(--pure-white)] placeholder-[var(--steel-gray)] px-4 py-3 rounded transition-all focus:outline-none focus:border-[var(--neon-red)] focus:ring-1 focus:ring-[var(--neon-red)]/50"
-                required
-              />
+
+        {/* RIGHT */}
+        <div className="col-span-5 flex items-center px-16">
+
+          <form
+            onSubmit={handleSubmit}
+            className="w-full max-w-[430px]"
+          >
+
+            <div className="editorial-label text-[#66635f]">
+              SIGN IN
             </div>
 
-            {/* Password Input */}
-            <div>
-              <label className="tech-label block mb-2">Password</label>
+            <h2 className="mt-5 text-[32px] font-medium tracking-[-0.04em]">
+              Access your account
+            </h2>
+
+
+            {/* LOGIN */}
+            <div className="mt-12">
+
+              <label
+                htmlFor="login"
+                className="editorial-label text-[#a6a3a0]"
+              >
+                EMAIL / LOGIN
+              </label>
+
               <input
+                id="login"
+                type="text"
+                value={login}
+                onChange={(event) => setLogin(event.target.value)}
+                placeholder="you@example.com"
+                autoComplete="username"
+                required
+                className="mt-3 w-full border-b border-white/20 bg-transparent px-0 py-4 text-[18px] text-[#f5f3f1] outline-none transition-colors placeholder:text-[#44413e] focus:border-[#ff3b16]"
+              />
+
+            </div>
+
+
+            {/* PASSWORD */}
+            <div className="mt-10">
+
+              <label
+                htmlFor="password"
+                className="editorial-label text-[#a6a3a0]"
+              >
+                PASSWORD
+              </label>
+
+              <input
+                id="password"
                 type="password"
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
                 placeholder="••••••••"
-                className="w-full bg-[var(--deep-charcoal)] border border-white/10 text-[var(--pure-white)] placeholder-[var(--steel-gray)] px-4 py-3 rounded transition-all focus:outline-none focus:border-[var(--neon-red)] focus:ring-1 focus:ring-[var(--neon-red)]/50"
+                autoComplete="current-password"
                 required
+                className="mt-3 w-full border-b border-white/20 bg-transparent px-0 py-4 text-[18px] text-[#f5f3f1] outline-none transition-colors placeholder:text-[#44413e] focus:border-[#ff3b16]"
               />
+
             </div>
 
-            {/* Error Message */}
+
+            {/* ERROR */}
             {error && (
-              <div className="bg-[var(--neon-red)]/10 border border-[var(--neon-red)]/50 text-[var(--neon-red)] px-4 py-3 rounded">
-                <p className="text-sm">{error}</p>
+              <div className="mt-6 border-l border-[#ff3b16] pl-4 text-[13px] leading-6 text-[#ff8b78]">
+                {error}
               </div>
             )}
 
-            {/* Submit Button */}
+
+            {/* SUBMIT */}
             <button
               type="submit"
               disabled={loading}
-              className="btn-primary w-full justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group mt-12 flex items-center gap-4 text-[12px] uppercase tracking-[0.12em] disabled:cursor-not-allowed disabled:opacity-40"
             >
-              <span className="btn-primary__label">
-                {loading ? "Signing in..." : "Sign In"}
+
+              <span className="border-b border-[#f5f3f1] pb-2 transition-colors group-hover:border-[#ff3b16] group-hover:text-[#ff3b16]">
+                {loading ? "Signing in..." : "Sign in"}
               </span>
+
               {!loading && (
-                <span className="btn-primary__icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M7 17L17 7" />
-                    <path d="M7 7H17V17" />
-                  </svg>
+                <span className="text-[#ff3b16] transition-transform duration-300 group-hover:translate-x-2">
+                  →
                 </span>
               )}
+
             </button>
+
+
+            {/* BACK */}
+            <Link
+              href="/"
+              className="mt-12 inline-block text-[11px] uppercase tracking-[0.1em] text-[#66635f] transition-colors hover:text-[#f5f3f1]"
+            >
+              ← Back to Dariora
+            </Link>
+
           </form>
+
         </div>
 
-        {/* Footer Link */}
-        <div className="text-center">
-          <p className="text-sm text-[var(--steel-gray)]">
-            Don't have an account?{" "}
-            <Link href="/signup" className="text-[var(--neon-red)] hover:text-[var(--electric-orange)] transition-colors">
-              Sign up
-            </Link>
-          </p>
-        </div>
       </div>
-    </div>
+    </main>
   );
 }
