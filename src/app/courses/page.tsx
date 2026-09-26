@@ -147,7 +147,7 @@ export default function CoursesPage() {
   return (
     <AuthGuard>
       <main className="min-h-[calc(100vh-88px)] bg-[#050505] text-[#f5f3f1]">
-      <div className="mx-auto max-w-[1360px] px-10 py-20">
+      <div className="mx-auto max-w-[1360px] px-10 py-20 pt-[120px]">
 
         {/* HEADER */}
         <div className="border-b border-white/10 pb-10">
@@ -155,24 +155,41 @@ export default function CoursesPage() {
             DARIORA / COURSES
           </div>
 
-          <div className="mt-8 flex items-end justify-between">
-            <h1 className="display text-[clamp(70px,9vw,145px)]">
-              COURSES
-            </h1>
+          <div className="mt-8 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <div>
+              <h1 className="display text-[clamp(64px,9vw,140px)]">
+                COURSES
+              </h1>
 
-            <button
-              onClick={() => {
-                if (showForm) {
-                  resetForm();
-                } else {
-                  setShowForm(true);
-                  setError("");
-                }
-              }}
-              className="mb-3 text-[12px] uppercase tracking-[0.12em] transition-colors hover:text-[#ff3b16]"
-            >
-              {showForm ? "Close ×" : "+ New Course"}
-            </button>
+              <p className="mt-6 max-w-[600px] text-[#77736f]">
+                Manage courses offered in Dariora Academy.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-start gap-4 md:items-end">
+              <button
+                onClick={() => {
+                  if (showForm) {
+                    resetForm();
+                  } else {
+                    setShowForm(true);
+                    setError("");
+                  }
+                }}
+                className="text-[12px] uppercase tracking-[0.12em] transition-colors hover:text-[#ff3b16]"
+              >
+                {showForm ? "Close ×" : "+ New Course"}
+              </button>
+
+              <div>
+                <div className="editorial-label text-[#66635f]">
+                  Total courses
+                </div>
+                <div className="mt-2 text-4xl tracking-[-0.04em]">
+                  {courses.length}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -314,7 +331,7 @@ export default function CoursesPage() {
             ) : (
               courses.map((course, index) => (
                 <div key={course.id} className="border-t border-white/10 py-8">
-                  <div className="grid grid-cols-[80px_1fr_180px_220px] items-center gap-6">
+                  <div className="grid grid-cols-[80px_1fr_180px_220px] items-start gap-6">
                     {/* NUMBER */}
                     <span className="text-[12px] text-[#66635f]">
                       {(index + 1).toString().padStart(2, "0")}
@@ -334,7 +351,7 @@ export default function CoursesPage() {
                     </div>
 
                     {/* PRICE */}
-                    <div className="text-right">
+                    <div>
                       <div className="text-[20px]">
                         €{course.price.toFixed(2)}
                       </div>

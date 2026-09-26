@@ -1,3 +1,21 @@
+let csrfToken: string | null = null;
+
+async function getCsrfToken() {
+  if (csrfToken) return csrfToken;
+  
+  try {
+    const response = await fetch("/api/csrf-token", {
+      credentials: "include",
+    });
+    const data = await response.json();
+    csrfToken = data.csrf_token;
+    return csrfToken;
+  } catch (error) {
+    console.warn("[API] Failed to get CSRF token:", error);
+    return null;
+  }
+}
+
 export async function apiFetch(
   endpoint: string,
   options: RequestInit = {}
@@ -5,16 +23,27 @@ export async function apiFetch(
   try {
     console.log(`[API] Fetching ${endpoint}`, options);
     
-    // Use relative URL - Next.js will proxy it to backend
+    const method = (options.method || "GET").toUpperCase();
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      ...options.headers,
+    };
+
+    // For POST/PUT/DELETE, add CSRF token
+    if (["POST", "PUT", "DELETE"].includes(method)) {
+      const token = await getCsrfToken();
+      if (token) {
+        (headers as Record<string, string>)["X-CSRF-Token"] = token;
+      }
+    }
+
     const response = await fetch(
       endpoint,
       {
         ...options,
+        method,
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          ...options.headers,
-        },
+        headers,
       }
     );
 

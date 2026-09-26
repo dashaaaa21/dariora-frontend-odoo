@@ -374,7 +374,7 @@ export default function StudentsPage() {
 
           {/* STUDENTS LIST */}
 
-          <section>
+          <section className="pt-16">
 
             <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-5">
 

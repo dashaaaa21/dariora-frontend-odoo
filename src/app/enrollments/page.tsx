@@ -165,7 +165,7 @@ export default function EnrollmentsPage() {
   return (
     <AuthGuard>
       <main className="min-h-[calc(100vh-88px)] bg-[#050505] text-[#f5f3f1]">
-      <div className="mx-auto max-w-[1360px] px-10 py-20">
+      <div className="mx-auto max-w-[1360px] px-10 py-20 pt-[120px]">
 
         {/* HEADER */}
         <div className="border-b border-white/10 pb-10">
@@ -173,24 +173,41 @@ export default function EnrollmentsPage() {
             DARIORA / ENROLLMENTS
           </div>
 
-          <div className="mt-8 flex items-end justify-between">
-            <h1 className="display text-[clamp(70px,9vw,145px)]">
-              ENROLLMENTS
-            </h1>
+          <div className="mt-8 flex flex-col justify-between gap-8 md:flex-row md:items-end">
+            <div>
+              <h1 className="display text-[clamp(64px,9vw,140px)]">
+                ENROLLMENTS
+              </h1>
 
-            <button
-              onClick={() => {
-                if (showForm) {
-                  resetForm();
-                } else {
-                  setShowForm(true);
-                  setError("");
-                }
-              }}
-              className="mb-3 text-[12px] uppercase tracking-[0.12em] transition-colors hover:text-[#ff3b16]"
-            >
-              {showForm ? "Close ×" : "+ New Enrollment"}
-            </button>
+              <p className="mt-6 max-w-[600px] text-[#77736f]">
+                Manage student enrollments in Dariora Academy.
+              </p>
+            </div>
+
+            <div className="flex flex-col items-start gap-4 md:items-end">
+              <button
+                onClick={() => {
+                  if (showForm) {
+                    resetForm();
+                  } else {
+                    setShowForm(true);
+                    setError("");
+                  }
+                }}
+                className="text-[12px] uppercase tracking-[0.12em] transition-colors hover:text-[#ff3b16]"
+              >
+                {showForm ? "Close ×" : "+ New Enrollment"}
+              </button>
+
+              <div>
+                <div className="editorial-label text-[#66635f]">
+                  Total enrollments
+                </div>
+                <div className="mt-2 text-4xl tracking-[-0.04em]">
+                  {enrollments.length}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -332,7 +349,7 @@ export default function EnrollmentsPage() {
                   key={enrollment.id}
                   className="border-t border-white/10 py-8"
                 >
-                  <div className="grid grid-cols-[80px_1fr_1fr_200px_200px] items-center gap-6">
+                  <div className="grid grid-cols-[80px_1fr_1fr_200px_200px] items-start gap-6">
                     {/* NUMBER */}
                     <span className="text-[12px] text-[#66635f]">
                       {(index + 1).toString().padStart(2, "0")}
