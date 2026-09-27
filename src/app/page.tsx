@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 
@@ -39,141 +40,55 @@ export default function Home() {
     <main className="min-h-screen p-8">
 
       {/* HERO */}
-      <section className="relative min-h-[950px] overflow-hidden border-b border-white/10">
-
-        {/* Red atmospheric light */}
-        <div className="pointer-events-none absolute right-[8%] top-[15%] h-[650px] w-[500px] rounded-full bg-[#8f0e08]/20 blur-[160px]" />
-
-        <div className="relative mx-auto max-w-[1360px] px-10">
-
-          {/* Editorial metadata */}
-          <div className="flex items-center justify-between pt-[120px]">
-
-            <div className="editorial-label text-[#a6a3a0]">
-              AI EDUCATION PLATFORM
-            </div>
-
-            <div className="editorial-label text-[#a6a3a0]">
-              DARIORA / 2026
-            </div>
-
+      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        <Image
+          src="/picture.png"
+          alt="DARIORA AI Education Platform"
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Shadow overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/30 to-black/55" />
+        <div className="absolute inset-0 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+          <div className="relative w-full h-full flex items-center justify-center">
+            <Image
+              src="/logo.png"
+              alt="DARIORA Logo"
+              fill
+              className="object-contain drop-shadow-2xl"
+              priority
+              sizes="(max-width: 640px) 60vw, (max-width: 1024px) 50vw, 40vw"
+            />
           </div>
-
-          {/* Main composition */}
-          <div className="relative mt-[95px] grid grid-cols-12">
-
-            {/* LEFT */}
-            <div className="relative z-20 col-span-8">
-
-              <h1 className="display text-[clamp(80px,9.5vw,150px)]">
-                <span className="block">
-                  ALL AI COURSES.
-                </span>
-
-                <span className="block text-[#ff3b16]">
-                  ONE PLATFORM.
-                </span>
-              </h1>
-
-              <div className="mt-12 max-w-[470px]">
-
-                <p className="text-[19px] leading-[1.45] text-[#a6a3a0]">
-                  Learn AI, automation, design, marketing,
-                  and more. Build real skills. Create your
-                  future with AI.
-                </p>
-
-                <Link
-                  href="/courses"
-                  className="group mt-9 inline-flex items-center gap-3 text-[12px] uppercase tracking-[0.12em]"
-                >
-                  <span className="border-b border-[#f5f3f1] pb-1 transition-colors group-hover:border-[#ff3b16] group-hover:text-[#ff3b16]">
-                    Explore courses
-                  </span>
-
-                  <span className="text-[#ff3b16] transition-transform duration-300 group-hover:translate-x-2">
-                    →
-                  </span>
-                </Link>
-
-              </div>
-            </div>
-
-            {/* RIGHT VISUAL AREA */}
-            <div className="absolute right-[-40px] top-[-80px] h-[720px] w-[470px] overflow-hidden">
-
-              {/* Temporary cinematic placeholder */}
-              <div className="absolute inset-0 bg-[#0b0b0b]">
-
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_65%_45%,rgba(255,59,22,0.35),transparent_38%)]" />
-
-                <div className="absolute right-[12%] top-[8%] h-[85%] w-[55%] border-l border-[#ff3b16]/30" />
-
-                <div className="absolute right-[18%] top-[18%] h-[65%] w-[38%] bg-[#151515]" />
-
-              </div>
-
-              <div className="absolute bottom-8 left-8">
-                <div className="editorial-label text-[#a6a3a0]">
-                  VISUAL SYSTEM
-                </div>
-
-                <div className="mt-2 text-[12px] uppercase tracking-[0.1em] text-[#ff3b16]">
-                  01 / AI FUTURE
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* HERO WORDMARK */}
-          <div className="pointer-events-none absolute bottom-[-15px] left-0 w-full overflow-hidden">
-
-            <div className="display whitespace-nowrap text-[clamp(130px,16vw,230px)] text-[#f5f3f1]">
-              DARIORA
-            </div>
-
-          </div>
-
         </div>
-
-        {/* tiny bottom metadata */}
-        <div className="absolute bottom-8 left-10 right-10 flex items-center justify-between border-t border-white/10 pt-4">
-
-          <span className="editorial-label text-[#66635f]">
-            AI LEARNING SYSTEM
-          </span>
-
-          <span className="editorial-label text-[#66635f]">
-            EST. 2026
-          </span>
-
-        </div>
-
       </section>
 
 
+      {/* RED LINE DIVIDER */}
+      <div className="red-line" />
+
       {/* STATEMENT */}
-      <section className="relative min-h-[850px] px-10 py-[180px]">
+      <section className="relative min-h-[850px] px-10 py-[180px] transition-all duration-700">
 
         <div className="mx-auto max-w-[1360px]">
 
-          <div className="editorial-label mb-20 text-[#66635f]">
+          <div className="tech-label mb-20">
             00 / PHILOSOPHY
           </div>
 
-          <h2 className="display max-w-[1250px] text-[clamp(75px,9vw,140px)]">
+          <h2 className="headline-large max-w-[1250px]">
             LEARN
             <br />
             WHAT&apos;S{" "}
-            <span className="text-[#ff3b16]">
+            <span className="text-[var(--neon-red)]">
               NEXT.
             </span>
           </h2>
 
           <div className="mt-24 ml-auto max-w-[360px]">
 
-            <p className="text-[16px] leading-[1.6] text-[#a6a3a0]">
+            <p className="body-text">
               AI is changing how we work, create and
               think. Dariora is built to help you understand
               the technology behind that change.
@@ -186,66 +101,70 @@ export default function Home() {
       </section>
 
 
+      {/* RED LINE DIVIDER */}
+      <div className="red-line" />
+
       {/* COURSES */}
-      <section className="border-t border-white/10 px-10 py-[150px]">
+      <section className="border-t border-white/10 px-10 py-[150px] transition-all duration-700">
 
         <div className="mx-auto max-w-[1360px]">
 
           <div className="flex items-center justify-between">
 
-            <span className="editorial-label text-[#66635f]">
+            <span className="tech-label">
               01 / COURSES
             </span>
 
-            <span className="editorial-label text-[#66635f]">
+            <span className="tech-label">
               SELECT YOUR PATH
             </span>
 
           </div>
 
-          <h2 className="display mt-16 text-[clamp(70px,8vw,125px)]">
+          <h2 className="headline-large mt-16">
             BUILD REAL
             <br />
-            <span className="text-[#ff3b16]">
+            <span className="text-[var(--neon-red)]">
               AI SKILLS.
             </span>
           </h2>
 
 
-          <div className="mt-28">
+          <div className="mt-28 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             {[
-              "AI FUNDAMENTALS",
-              "PROMPT ENGINEERING",
-              "AI AUTOMATION",
-              "AI FOR DESIGN",
-              "AI FOR MARKETING",
-              "AI CONTENT CREATION",
-            ].map((course, index) => (
+              { num: "01", title: "AI FUNDAMENTALS" },
+              { num: "02", title: "PROMPT ENGINEERING" },
+              { num: "03", title: "AI AUTOMATION" },
+              { num: "04", title: "AI FOR DESIGN" },
+              { num: "05", title: "AI FOR MARKETING" },
+              { num: "06", title: "AI CONTENT CREATION" },
+            ].map((course) => (
 
               <Link
                 href="/courses"
-                key={course}
-                className="group flex min-h-[105px] items-center border-t border-white/10 transition-all duration-500 hover:bg-[#0b0b0b]"
+                key={course.num}
+                className="group glass neon-glow p-6 flex flex-col justify-between min-h-[280px] transition-all duration-500 hover:bg-[var(--deep-charcoal)]/80"
               >
 
-                <span className="w-[100px] text-[12px] text-[#66635f]">
-                  0{index + 1}
-                </span>
+                <div>
+                  <div className="tech-label text-[var(--neon-red)] mb-4">
+                    {course.num}
+                  </div>
 
-                <span className="flex-1 text-[clamp(25px,3vw,45px)] font-medium tracking-[-0.04em] transition-transform duration-500 group-hover:translate-x-3">
-                  {course}
-                </span>
+                  <h3 className="headline-small mb-4 group-hover:text-[var(--neon-red)] transition-colors duration-300">
+                    {course.title}
+                  </h3>
+                </div>
 
-                <span className="pr-4 text-[22px] text-[#66635f] transition-all duration-300 group-hover:translate-x-2 group-hover:text-[#ff3b16]">
-                  →
-                </span>
+                <div className="flex items-center gap-2 text-[var(--steel-gray)] group-hover:text-[var(--neon-red)] transition-colors duration-300">
+                  <span className="text-sm uppercase tracking-widest">Explore</span>
+                  <span className="text-lg">→</span>
+                </div>
 
               </Link>
 
             ))}
-
-            <div className="border-t border-white/10" />
 
           </div>
 
@@ -254,21 +173,24 @@ export default function Home() {
       </section>
 
 
-      {/* AI TOOLKIT */}
-      <section className="relative overflow-hidden border-t border-white/10 px-10 py-[170px]">
+      {/* RED LINE DIVIDER */}
+      <div className="red-line" />
 
-        <div className="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] bg-[#8f0e08]/10 blur-[140px]" />
+      {/* AI TOOLKIT */}
+      <section className="relative overflow-hidden border-t border-white/10 px-10 py-[170px] transition-all duration-700">
+
+        <div className="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] bg-[var(--neon-red)]/10 blur-[140px]" />
 
         <div className="relative mx-auto max-w-[1360px]">
 
-          <span className="editorial-label text-[#66635f]">
+          <span className="tech-label">
             02 / AI TOOLKIT
           </span>
 
-          <h2 className="display mt-20 text-[clamp(90px,12vw,180px)]">
+          <h2 className="headline-large mt-20">
             THE
             <br />
-            <span className="text-[#ff3b16]">
+            <span className="text-[var(--neon-red)]">
               AI
             </span>{" "}
             TOOLKIT.
@@ -290,7 +212,7 @@ export default function Home() {
 
               <div
                 key={tool}
-                className="border-b border-white/10 py-8 text-[22px] tracking-[-0.03em] text-[#a6a3a0] transition-colors hover:text-[#ff3b16]"
+                className="glass border-b border-white/10 py-8 px-6 text-[22px] tracking-[-0.03em] text-[var(--steel-gray)] transition-all duration-300 hover:text-[var(--neon-red)] hover:border-[var(--neon-red)]/50 neon-glow"
               >
                 {tool}
               </div>
@@ -304,28 +226,31 @@ export default function Home() {
       </section>
 
 
+      {/* RED LINE DIVIDER */}
+      <div className="red-line" />
+
       {/* PHILOSOPHY */}
-      <section className="relative min-h-[900px] border-t border-white/10 px-10 py-[180px]">
+      <section className="relative min-h-[900px] border-t border-white/10 px-10 py-[180px] transition-all duration-700">
 
         <div className="mx-auto max-w-[1360px]">
 
-          <span className="editorial-label text-[#66635f]">
+          <span className="tech-label">
             03 / APPROACH
           </span>
 
-          <h2 className="display mt-24 text-[clamp(75px,10vw,150px)]">
+          <h2 className="headline-large mt-24">
             DON&apos;T JUST
             <br />
             USE AI.
             <br />
-            <span className="text-[#ff3b16]">
+            <span className="text-[var(--neon-red)]">
               UNDERSTAND IT.
             </span>
           </h2>
 
           <div className="mt-24 ml-auto max-w-[340px]">
 
-            <p className="text-[16px] leading-[1.6] text-[#a6a3a0]">
+            <p className="body-text">
               Learn the systems. Understand the tools.
               Build things that actually work.
             </p>
@@ -337,16 +262,19 @@ export default function Home() {
       </section>
 
 
+      {/* RED LINE DIVIDER */}
+      <div className="red-line" />
+
       {/* LEARNING PATH */}
-      <section className="border-t border-white/10 px-10 py-[150px]">
+      <section className="border-t border-white/10 px-10 py-[150px] transition-all duration-700">
 
         <div className="mx-auto max-w-[1360px]">
 
-          <span className="editorial-label text-[#66635f]">
+          <span className="tech-label">
             04 / LEARNING PATH
           </span>
 
-          <h2 className="display mt-16 max-w-[1000px] text-[clamp(70px,8vw,125px)]">
+          <h2 className="headline-large mt-16 max-w-[1000px]">
             YOUR PATH
             <br />
             STARTS HERE.
@@ -354,7 +282,7 @@ export default function Home() {
 
           <div className="relative mt-32">
 
-            <div className="absolute left-[23px] top-0 h-full w-px bg-[#ff3b16]/40" />
+            <div className="absolute left-[23px] top-0 h-full w-px bg-[var(--neon-red)]/40" />
 
             {[
               "DISCOVER",
@@ -367,14 +295,14 @@ export default function Home() {
 
               <div
                 key={step}
-                className="group relative flex min-h-[110px] items-center border-t border-white/10"
+                className="group relative flex min-h-[110px] items-center border-t border-white/10 transition-all duration-300 hover:bg-[var(--deep-charcoal)]/50"
               >
 
-                <div className="relative z-10 flex h-12 w-12 items-center justify-center bg-[#050505] text-[12px] text-[#ff3b16]">
+                <div className="relative z-10 flex h-12 w-12 items-center justify-center bg-[var(--obsidian-black)] text-[12px] text-[var(--neon-red)] neon-glow">
                   0{index + 1}
                 </div>
 
-                <div className="ml-16 text-[clamp(28px,4vw,55px)] tracking-[-0.04em] text-[#a6a3a0] transition-colors group-hover:text-[#f5f3f1]">
+                <div className="ml-16 headline-small text-[var(--steel-gray)] transition-colors duration-300 group-hover:text-[var(--pure-white)]">
                   {step}
                 </div>
 
@@ -391,89 +319,238 @@ export default function Home() {
       </section>
 
 
-      {/* FINAL CTA */}
-      <section className="relative flex min-h-[850px] items-center overflow-hidden border-t border-white/10 px-10">
+      {/* RED LINE DIVIDER */}
+      <div className="red-line" />
 
-        <div className="pointer-events-none absolute left-[25%] top-[30%] h-[500px] w-[500px] rounded-full bg-[#ff1600]/10 blur-[150px]" />
+      {/* FINAL CTA */}
+      <section className="relative flex min-h-[850px] items-center overflow-hidden border-t border-white/10 px-10 transition-all duration-700">
+
+        <div className="pointer-events-none absolute left-[25%] top-[30%] h-[500px] w-[500px] rounded-full bg-[var(--neon-red)]/10 blur-[150px]" />
 
         <div className="relative mx-auto w-full max-w-[1360px]">
 
-          <span className="editorial-label text-[#66635f]">
+          <span className="tech-label">
             05 / START
           </span>
 
-          <h2 className="display mt-16 max-w-[1100px] text-[clamp(80px,11vw,165px)]">
+          <h2 className="headline-large mt-16 max-w-[1100px]">
             READY TO
             <br />
             BUILD
             <br />
-            <span className="text-[#ff3b16]">
+            <span className="text-[var(--neon-red)]">
               WITH AI?
             </span>
           </h2>
 
-          <Link
-            href="/courses"
-            className="group mt-16 inline-flex items-center gap-4 text-[13px] uppercase tracking-[0.12em]"
-          >
-            <span className="border-b border-[#f5f3f1] pb-2 transition-colors group-hover:border-[#ff3b16] group-hover:text-[#ff3b16]">
-              Start learning
-            </span>
-
-            <span className="text-[#ff3b16] transition-transform duration-300 group-hover:translate-x-2">
-              →
-            </span>
-          </Link>
+          <div className="hero-actions mt-16">
+            <button className="btn-primary">
+              <span className="btn-primary__label">Start a Project</span>
+              <span className="btn-primary__icon">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M7 17L17 7" />
+                  <path d="M7 7H17V17" />
+                </svg>
+              </span>
+            </button>
+            
+            <button className="btn-secondary">
+              <span>View Our Work</span>
+            </button>
+          </div>
 
         </div>
 
       </section>
 
 
-      {/* FOOTER */}
-      <footer className="border-t border-white/10 px-10 pb-10 pt-20">
+
+      {/* RED LINE DIVIDER */}
+      <div className="red-line" />
+
+      {/* CONTACT US */}
+      <section className="relative min-h-screen px-10 py-[150px] transition-all duration-700">
 
         <div className="mx-auto max-w-[1360px]">
 
-          <div className="display text-[clamp(100px,15vw,220px)]">
-            DARIORA
+          <span className="tech-label">
+            06 / CONTACT
+          </span>
+
+          <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+
+            {/* Left Side - Text & Info */}
+            <div>
+              <h2 className="headline-large mb-16">
+                <span className="text-[var(--neon-red)]">CONTACT</span>
+                <br />
+                US
+              </h2>
+
+              <div className="space-y-8">
+                <div>
+                  <div className="tech-label mb-2">Contact</div>
+                  <a href="tel:+380963142018" className="text-lg hover:text-[var(--neon-red)] transition-colors">
+                    +380 96 314 20 18
+                  </a>
+                </div>
+
+                <div>
+                  <div className="tech-label mb-2">Email</div>
+                  <a href="mailto:kontourstud@gmail.com" className="text-lg hover:text-[var(--neon-red)] transition-colors">
+                    kontourstud@gmail.com
+                  </a>
+                </div>
+
+                <div>
+                  <div className="tech-label mb-2">Location</div>
+                  <p className="text-lg">Kyiv, Ukraine</p>
+                </div>
+
+                <div>
+                  <div className="tech-label mb-4">Social</div>
+                  <div className="flex gap-6">
+                    <a href="#" className="hover:text-[var(--neon-red)] transition-colors underline">
+                      Telegram
+                    </a>
+                    <a href="#" className="hover:text-[var(--neon-red)] transition-colors underline">
+                      Instagram
+                    </a>
+                    <a href="#" className="hover:text-[var(--neon-red)] transition-colors underline">
+                      WhatsApp
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Form */}
+            <div className="glass p-8 rounded-lg">
+              <h3 className="headline-small mb-8">
+                Send us a Message
+              </h3>
+
+              <form className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="tech-label block mb-2">Your Name*</label>
+                    <input
+                      type="text"
+                      placeholder="Name"
+                      className="w-full bg-[var(--deep-charcoal)] border border-white/10 text-[var(--pure-white)] placeholder-[var(--steel-gray)] px-4 py-3 rounded transition-all focus:outline-none focus:border-[var(--neon-red)] focus:box-shadow"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="tech-label block mb-2">Phone Number*</label>
+                    <input
+                      type="tel"
+                      placeholder="Number"
+                      className="w-full bg-[var(--deep-charcoal)] border border-white/10 text-[var(--pure-white)] placeholder-[var(--steel-gray)] px-4 py-3 rounded transition-all focus:outline-none focus:border-[var(--neon-red)]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="tech-label block mb-2">Your Email*</label>
+                    <input
+                      type="email"
+                      placeholder="kontourstud@gmail.com"
+                      className="w-full bg-[var(--deep-charcoal)] border border-white/10 text-[var(--pure-white)] placeholder-[var(--steel-gray)] px-4 py-3 rounded transition-all focus:outline-none focus:border-[var(--neon-red)]"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="tech-label block mb-2">WhatsApp / LinkedIn / Instagram</label>
+                    <input
+                      type="text"
+                      placeholder="Your link / username"
+                      className="w-full bg-[var(--deep-charcoal)] border border-white/10 text-[var(--pure-white)] placeholder-[var(--steel-gray)] px-4 py-3 rounded transition-all focus:outline-none focus:border-[var(--neon-red)]"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="tech-label block mb-2">Message</label>
+                  <textarea
+                    placeholder="Tell us what you want..."
+                    rows={5}
+                    className="w-full bg-[var(--deep-charcoal)] border border-white/10 text-[var(--pure-white)] placeholder-[var(--steel-gray)] px-4 py-3 rounded transition-all focus:outline-none focus:border-[var(--neon-red)] resize-none"
+                  />
+                </div>
+
+                <div className="pt-4 flex gap-4">
+                  <button type="submit" className="btn-primary">
+                    <span className="btn-primary__label">Start a Project</span>
+                    <span className="btn-primary__icon">
+                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M7 17L17 7" />
+                        <path d="M7 7H17V17" />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* RED LINE DIVIDER */}
+      <div className="red-line" />
+
+      {/* FOOTER */}
+      <footer className="border-t border-white/10 px-10 pb-10 pt-20 transition-all duration-700">
+
+        <div className="mx-auto max-w-[1360px]">
+
+          <div className="flex items-center gap-4">
+            <img
+              src="/logo.png"
+              alt="DARIORA Logo"
+              className="h-96 w-96 object-contain"
+            />
           </div>
 
           <div className="mt-8 flex flex-col justify-between gap-12 border-t border-white/10 pt-8 md:flex-row">
 
             <div>
-              <div className="editorial-label text-[#a6a3a0]">
+              <div className="tech-label text-[var(--steel-gray)]">
                 AI EDUCATION PLATFORM
               </div>
 
-              <div className="mt-3 editorial-label text-[#66635f]">
+              <div className="mt-3 tech-label text-[var(--steel-gray)]/60">
                 EST. 2026
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-x-16 gap-y-4 text-[11px] uppercase tracking-[0.1em] text-[#a6a3a0] md:grid-cols-3">
+            <div className="grid grid-cols-2 gap-x-16 gap-y-4 text-[11px] uppercase tracking-[0.1em] text-[var(--steel-gray)] md:grid-cols-3 transition-all duration-300">
 
-              <Link href="/courses" className="hover:text-[#ff3b16]">
+              <Link href="/courses" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 Courses
               </Link>
 
-              <Link href="/" className="hover:text-[#ff3b16]">
+              <Link href="/" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 AI Tools
               </Link>
 
-              <Link href="/" className="hover:text-[#ff3b16]">
+              <Link href="/" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 About
               </Link>
 
-              <Link href="/" className="hover:text-[#ff3b16]">
+              <Link href="/" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 Contact
               </Link>
 
-              <Link href="/" className="hover:text-[#ff3b16]">
+              <Link href="/" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 Instagram
               </Link>
 
-              <Link href="/" className="hover:text-[#ff3b16]">
+              <Link href="/" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 YouTube
               </Link>
 
@@ -481,7 +558,7 @@ export default function Home() {
 
           </div>
 
-          <div className="mt-16 flex justify-between border-t border-white/10 pt-5 text-[10px] uppercase tracking-[0.1em] text-[#66635f]">
+          <div className="mt-16 flex justify-between border-t border-white/10 pt-5 text-[10px] uppercase tracking-[0.1em] text-[var(--steel-gray)]/50">
 
             <span>
               © 2026 DARIORA
