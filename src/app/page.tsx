@@ -1,8 +1,42 @@
+"use client";
+
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { apiFetch } from "@/lib/api";
+
+type Course = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  is_published: boolean;
+};
 
 export default function Home() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadCourses() {
+      try {
+        const data = await apiFetch("/api/courses");
+        setCourses(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadCourses();
+  }, []);
+
+  if (loading) {
+    return <p>Loading courses...</p>;
+  }
+
   return (
-    <main className="bg-[#050505] text-[#f5f3f1]">
+    <main className="min-h-screen p-8">
 
       {/* HERO */}
       <section className="relative min-h-[950px] overflow-hidden border-b border-white/10">
