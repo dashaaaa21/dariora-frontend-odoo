@@ -3,64 +3,56 @@
 import { FormEvent, useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
 
-type Course = {
+type Student = {
   id: number;
   name: string;
-  description: string | null;
-  price: number;
-  is_published: boolean;
+  email: string;
 };
 
-export default function CoursesPage() {
-  const [courses, setCourses] = useState<Course[]>([]);
+export default function StudentsPage() {
+  const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   const [showForm, setShowForm] = useState(false);
-  const [editingCourseId, setEditingCourseId] = useState<number | null>(null);
+  const [editingStudentId, setEditingStudentId] = useState<number | null>(null);
 
   const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [price, setPrice] = useState("");
-  const [isPublished, setIsPublished] = useState(false);
+  const [email, setEmail] = useState("");
 
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  async function loadCourses() {
+  async function loadStudents() {
     try {
       setLoading(true);
       setError("");
 
-      const data = await apiFetch("/api/courses");
-      setCourses(data);
+      const data = await apiFetch("/api/students");
+      setStudents(data);
     } catch (error) {
       console.error(error);
-      setError("Failed to load courses.");
+      setError("Failed to load students.");
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadCourses();
+    loadStudents();
   }, []);
 
   function resetForm() {
     setName("");
-    setDescription("");
-    setPrice("");
-    setIsPublished(false);
-    setEditingCourseId(null);
+    setEmail("");
+    setEditingStudentId(null);
     setShowForm(false);
   }
 
-  function startEditing(course: Course) {
-    setEditingCourseId(course.id);
-    setName(course.name);
-    setDescription(course.description || "");
-    setPrice(String(course.price));
-    setIsPublished(course.is_published);
+  function startEditing(student: Student) {
+    setEditingStudentId(student.id);
+    setName(student.name);
+    setEmail(student.email);
     setShowForm(true);
     setError("");
 
@@ -79,41 +71,39 @@ export default function CoursesPage() {
 
       const body = {
         name,
-        description,
-        price: Number(price),
-        is_published: isPublished,
+        email,
       };
 
-      if (editingCourseId !== null) {
-        await apiFetch(`/api/courses/${editingCourseId}`, {
+      if (editingStudentId !== null) {
+        await apiFetch(`/api/students/${editingStudentId}`, {
           method: "PUT",
           body: JSON.stringify(body),
         });
       } else {
-        await apiFetch("/api/courses", {
+        await apiFetch("/api/students", {
           method: "POST",
           body: JSON.stringify(body),
         });
       }
 
       resetForm();
-      await loadCourses();
+      await loadStudents();
     } catch (error) {
       console.error(error);
 
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError("Failed to save course.");
+        setError("Failed to save student.");
       }
     } finally {
       setSaving(false);
     }
   }
 
-  async function handleDelete(courseId: number) {
+  async function handleDelete(studentId: number) {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this course?"
+      "Are you sure you want to delete this student?"
     );
 
     if (!confirmed) {
@@ -121,21 +111,21 @@ export default function CoursesPage() {
     }
 
     try {
-      setDeletingId(courseId);
+      setDeletingId(studentId);
       setError("");
 
-      await apiFetch(`/api/courses/${courseId}`, {
+      await apiFetch(`/api/students/${studentId}`, {
         method: "DELETE",
       });
 
-      await loadCourses();
+      await loadStudents();
     } catch (error) {
       console.error(error);
 
       if (error instanceof Error) {
         setError(error.message);
       } else {
-        setError("Failed to delete course.");
+        setError("Failed to delete student.");
       }
     } finally {
       setDeletingId(null);
@@ -149,12 +139,12 @@ export default function CoursesPage() {
         {/* HEADER */}
         <div className="border-b border-white/10 pb-10">
           <div className="editorial-label text-[#66635f]">
-            DARIORA / COURSES
+            DARIORA / STUDENTS
           </div>
 
           <div className="mt-8 flex items-end justify-between">
             <h1 className="display text-[clamp(70px,9vw,145px)]">
-              COURSES
+              STUDENTS
             </h1>
 
             <button
@@ -168,7 +158,7 @@ export default function CoursesPage() {
               }}
               className="mb-3 text-[12px] uppercase tracking-[0.12em] transition-colors hover:text-[#ff3b16]"
             >
-              {showForm ? "Close ×" : "+ New Course"}
+              {showForm ? "Close ×" : "+ New Student"}
             </button>
           </div>
         </div>
@@ -177,84 +167,49 @@ export default function CoursesPage() {
         {showForm && (
           <section className="border-b border-white/10 py-16">
             <div className="editorial-label text-[#66635f]">
-              {editingCourseId ? "EDIT / COURSE" : "CREATE / COURSE"}
+              {editingStudentId ? "EDIT / STUDENT" : "ADD / STUDENT"}
             </div>
 
             <form onSubmit={handleSubmit} className="mt-10 max-w-[700px]">
               {/* NAME */}
               <div>
                 <label
-                  htmlFor="course-name"
+                  htmlFor="student-name"
                   className="editorial-label text-[#a6a3a0]"
                 >
-                  COURSE NAME
+                  FULL NAME
                 </label>
 
                 <input
-                  id="course-name"
+                  id="student-name"
                   type="text"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
-                  placeholder="AI for Beginners"
+                  placeholder="John Doe"
                   required
                   className="mt-3 w-full border-b border-white/20 bg-transparent px-0 py-4 text-[20px] outline-none transition-colors placeholder:text-[#44413e] focus:border-[#ff3b16]"
                 />
               </div>
 
-              {/* DESCRIPTION */}
+              {/* EMAIL */}
               <div className="mt-10">
                 <label
-                  htmlFor="course-description"
+                  htmlFor="student-email"
                   className="editorial-label text-[#a6a3a0]"
                 >
-                  DESCRIPTION
-                </label>
-
-                <textarea
-                  id="course-description"
-                  value={description}
-                  onChange={(event) => setDescription(event.target.value)}
-                  placeholder="Introduction to Artificial Intelligence"
-                  rows={4}
-                  className="mt-3 w-full resize-none border-b border-white/20 bg-transparent px-0 py-4 text-[18px] leading-7 outline-none transition-colors placeholder:text-[#44413e] focus:border-[#ff3b16]"
-                />
-              </div>
-
-              {/* PRICE */}
-              <div className="mt-10">
-                <label
-                  htmlFor="course-price"
-                  className="editorial-label text-[#a6a3a0]"
-                >
-                  PRICE / EUR
+                  EMAIL
                 </label>
 
                 <input
-                  id="course-price"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={price}
-                  onChange={(event) => setPrice(event.target.value)}
-                  placeholder="99"
+                  id="student-email"
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="john@example.com"
                   required
                   className="mt-3 w-full border-b border-white/20 bg-transparent px-0 py-4 text-[20px] outline-none transition-colors placeholder:text-[#44413e] focus:border-[#ff3b16]"
                 />
               </div>
-
-              {/* PUBLISHED */}
-              <label className="mt-10 flex cursor-pointer items-center gap-4">
-                <input
-                  type="checkbox"
-                  checked={isPublished}
-                  onChange={(event) => setIsPublished(event.target.checked)}
-                  className="h-4 w-4 accent-[#ff3b16]"
-                />
-
-                <span className="editorial-label text-[#a6a3a0]">
-                  PUBLISH COURSE
-                </span>
-              </label>
 
               {/* ERROR */}
               {error && (
@@ -272,9 +227,9 @@ export default function CoursesPage() {
                 <span className="border-b border-[#f5f3f1] pb-2 transition-colors group-hover:border-[#ff3b16] group-hover:text-[#ff3b16]">
                   {saving
                     ? "Saving..."
-                    : editingCourseId
+                    : editingStudentId
                     ? "Save Changes"
-                    : "Create Course"}
+                    : "Add Student"}
                 </span>
 
                 {!saving && (
@@ -297,69 +252,53 @@ export default function CoursesPage() {
         {/* LOADING */}
         {loading && (
           <div className="py-20 editorial-label text-[#66635f]">
-            Loading / COURSES
+            Loading / STUDENTS
           </div>
         )}
 
         {/* LIST */}
         {!loading && (
           <section className="mt-10">
-            {courses.length === 0 ? (
+            {students.length === 0 ? (
               <div className="border-t border-white/10 py-20 text-[#66635f]">
-                No courses available.
+                No students available.
               </div>
             ) : (
-              courses.map((course, index) => (
-                <div key={course.id} className="border-t border-white/10 py-8">
-                  <div className="grid grid-cols-[80px_1fr_180px_220px] items-center gap-6">
+              students.map((student, index) => (
+                <div key={student.id} className="border-t border-white/10 py-8">
+                  <div className="grid grid-cols-[80px_1fr_300px_220px] items-center gap-6">
                     {/* NUMBER */}
                     <span className="text-[12px] text-[#66635f]">
                       {(index + 1).toString().padStart(2, "0")}
                     </span>
 
-                    {/* COURSE */}
+                    {/* NAME */}
                     <div>
                       <h2 className="text-[clamp(30px,4vw,58px)] tracking-[-0.05em]">
-                        {course.name}
+                        {student.name}
                       </h2>
-
-                      {course.description && (
-                        <p className="mt-3 max-w-[650px] text-[14px] leading-6 text-[#66635f]">
-                          {course.description}
-                        </p>
-                      )}
                     </div>
 
-                    {/* PRICE */}
-                    <div className="text-right">
-                      <div className="text-[20px]">
-                        €{course.price.toFixed(2)}
-                      </div>
-
-                      <div
-                        className={`mt-2 editorial-label ${
-                          course.is_published ? "text-[#ff3b16]" : "text-[#66635f]"
-                        }`}
-                      >
-                        {course.is_published ? "PUBLISHED" : "DRAFT"}
-                      </div>
+                    {/* EMAIL */}
+                    <div className="text-[#a6a3a0]">
+                      <p className="text-[14px] break-all">{student.email}</p>
                     </div>
 
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-6">
                       <button
-                        onClick={() => startEditing(course)}
+                        onClick={() => startEditing(student)}
                         className="text-[11px] uppercase tracking-[0.1em] text-[#a6a3a0] transition-colors hover:text-[#ff3b16]"
                       >
                         Edit
                       </button>
 
                       <button
-                        onClick={() => handleDelete(course.id)}
-                        disabled={deletingId === course.id}
+                        onClick={() => handleDelete(student.id)}
+                        disabled={deletingId === student.id}
                         className="text-[11px] uppercase tracking-[0.1em] text-[#66635f] transition-colors hover:text-[#ff3b16] disabled:opacity-40"
                       >
-                        {deletingId === course.id ? "Deleting..." : "Delete"}
+                        {deletingId === student.id ? "Deleting..." : "Delete"}
                       </button>
                     </div>
                   </div>
