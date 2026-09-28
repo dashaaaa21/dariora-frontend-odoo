@@ -1,30 +1,32 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
-import { apiFetch } from "@/lib/api";
+import { useEffect, useState } from "react";
+
 import AuthGuard from "@/components/AuthGuard";
+import { apiFetch } from "@/lib/api";
 
 type Student = {
   id: number;
   name: string;
   email: string;
-  active?: boolean;
+  active: boolean;
 };
 
 export default function StudentsPage() {
   const [students, setStudents] = useState<Student[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
-  const [showForm, setShowForm] = useState(false);
-  const [editingStudentId, setEditingStudentId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const [editingStudent, setEditingStudent] =
+    useState<Student | null>(null);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [active, setActive] = useState(true);
-
-  const [saving, setSaving] = useState(false);
-  const [deletingId, setDeletingId] = useState<number | null>(null);
 
   async function loadStudents() {
     try {
@@ -32,10 +34,14 @@ export default function StudentsPage() {
       setError("");
 
       const data = await apiFetch("/api/students");
+
       setStudents(data);
-    } catch (error) {
-      console.error(error);
-      setError("Failed to load students.");
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to load students"
+      );
     } finally {
       setLoading(false);
     }
@@ -49,17 +55,19 @@ export default function StudentsPage() {
     setName("");
     setEmail("");
     setActive(true);
-    setEditingStudentId(null);
-    setShowForm(false);
+    setEditingStudent(null);
+    setError("");
   }
 
   function startEditing(student: Student) {
-    setEditingStudentId(student.id);
+    setEditingStudent(student);
+
     setName(student.name);
     setEmail(student.email);
-    setActive(student.active ?? true);
-    setShowForm(true);
+    setActive(student.active);
+
     setError("");
+    setSuccess("");
 
     window.scrollTo({
       top: 0,
@@ -67,49 +75,92 @@ export default function StudentsPage() {
     });
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function cancelEditing() {
+    resetForm();
+  }
+
+  async function handleSubmit(
+    event: React.FormEvent<HTMLFormElement>
+  ) {
     event.preventDefault();
+
+    if (!name.trim()) {
+      setError("Name is required.");
+      return;
+    }
+
+    if (!email.trim()) {
+      setError("Email is required.");
+      return;
+    }
 
     try {
       setSaving(true);
       setError("");
+      setSuccess("");
 
-      const body = {
-        name,
-        email,
-        active,
-      };
+      if (editingStudent) {
+        const updatedStudent = await apiFetch(
+          `/api/students/${editingStudent.id}`,
+          {
+            method: "PUT",
+            body: JSON.stringify({
+              name: name.trim(),
+              email: email.trim(),
+              active,
+            }),
+          }
+        );
 
-      if (editingStudentId !== null) {
-        await apiFetch(`/api/students/${editingStudentId}`, {
-          method: "PUT",
-          body: JSON.stringify(body),
-        });
+        setStudents((currentStudents) =>
+          currentStudents.map((student) =>
+            student.id === updatedStudent.id
+              ? updatedStudent
+              : student
+          )
+        );
+
+        setSuccess("Student updated successfully.");
       } else {
-        await apiFetch("/api/students", {
-          method: "POST",
-          body: JSON.stringify(body),
-        });
+        const newStudent = await apiFetch(
+          "/api/students",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              name: name.trim(),
+              email: email.trim(),
+              active,
+            }),
+          }
+        );
+
+        setStudents((currentStudents) => [
+          ...currentStudents,
+          newStudent,
+        ]);
+
+        setSuccess("Student created successfully.");
       }
 
       resetForm();
-      await loadStudents();
-    } catch (error) {
-      console.error(error);
 
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError("Failed to save student.");
-      }
+      setTimeout(() => {
+        setSuccess("");
+      }, 3000);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Something went wrong"
+      );
     } finally {
       setSaving(false);
     }
   }
 
-  async function handleDelete(studentId: number) {
+  async function handleDelete(student: Student) {
     const confirmed = window.confirm(
-      "Are you sure you want to delete this student?"
+      `Delete "${student.name}"?`
     );
 
     if (!confirmed) {
@@ -117,230 +168,337 @@ export default function StudentsPage() {
     }
 
     try {
-      setDeletingId(studentId);
       setError("");
+      setSuccess("");
 
-      await apiFetch(`/api/students/${studentId}`, {
-        method: "DELETE",
-      });
+      await apiFetch(
+        `/api/students/${student.id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
-      await loadStudents();
-    } catch (error) {
-      console.error(error);
+      setStudents((currentStudents) =>
+        currentStudents.filter(
+          (item) => item.id !== student.id
+        )
+      );
 
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError("Failed to delete student.");
+      if (editingStudent?.id === student.id) {
+        resetForm();
       }
-    } finally {
-      setDeletingId(null);
+
+      setSuccess("Student deleted successfully.");
+
+      setTimeout(() => {
+        setSuccess("");
+      }, 3000);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Failed to delete student"
+      );
     }
   }
 
   return (
     <AuthGuard>
-      <main className="min-h-[calc(100vh-88px)] bg-[#050505] text-[#f5f3f1]">
-      <div className="mx-auto max-w-[1360px] px-10 py-20">
+      <main className="min-h-[calc(100vh-88px)] bg-[#050505] px-10 pb-24 pt-[130px] text-[#f5f3f1]">
 
-        {/* HEADER */}
-        <div className="border-b border-white/10 pb-10">
-          <div className="editorial-label text-[#66635f]">
-            DARIORA / STUDENTS
-          </div>
+        <div className="mx-auto max-w-[1360px]">
 
-          <div className="mt-8 flex items-end justify-between">
-            <h1 className="display text-[clamp(70px,9vw,145px)]">
-              STUDENTS
-            </h1>
+          {/* HEADER */}
 
-            <button
-              onClick={() => {
-                if (showForm) {
-                  resetForm();
-                } else {
-                  setShowForm(true);
-                  setError("");
-                }
-              }}
-              className="mb-3 text-[12px] uppercase tracking-[0.12em] transition-colors hover:text-[#ff3b16]"
-            >
-              {showForm ? "Close ×" : "+ New Student"}
-            </button>
-          </div>
-        </div>
+          <div className="mb-16 border-b border-white/10 pb-8">
 
-        {/* FORM */}
-        {showForm && (
-          <section className="border-b border-white/10 py-16">
-            <div className="editorial-label text-[#66635f]">
-              {editingStudentId ? "EDIT / STUDENT" : "ADD / STUDENT"}
+            <div className="editorial-label mb-6 text-[#ff3b16]">
+              DARIORA / Students
             </div>
 
-            <form onSubmit={handleSubmit} className="mt-10 max-w-[700px]">
-              {/* NAME */}
+            <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
+
               <div>
-                <label
-                  htmlFor="student-name"
-                  className="editorial-label text-[#a6a3a0]"
-                >
-                  FULL NAME
+                <h1 className="display text-[clamp(64px,9vw,140px)]">
+                  Students
+                </h1>
+
+                <p className="mt-6 max-w-[600px] text-[#77736f]">
+                  Manage students enrolled in Dariora Academy.
+                </p>
+              </div>
+
+              <div className="text-right">
+
+                <div className="editorial-label text-[#66635f]">
+                  Total students
+                </div>
+
+                <div className="mt-2 text-4xl tracking-[-0.04em]">
+                  {students.length}
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+          {/* MESSAGES */}
+
+          {error && (
+            <div className="mb-8 border border-red-500/30 bg-red-500/5 p-5 text-sm text-red-400">
+              {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="mb-8 border border-[#ff3b16]/30 bg-[#ff3b16]/5 p-5 text-sm text-[#ff3b16]">
+              {success}
+            </div>
+          )}
+
+          {/* FORM */}
+
+          <section className="mb-20 max-w-[900px]">
+
+            <div className="editorial-label mb-8 text-[#66635f]">
+              {editingStudent
+                ? "Edit student"
+                : "Add student"}
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-8"
+            >
+
+              {/* NAME */}
+
+              <div>
+                <label className="editorial-label mb-3 block text-[#77736f]">
+                  Name
                 </label>
 
                 <input
-                  id="student-name"
                   type="text"
                   value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  placeholder="John Doe"
-                  required
-                  className="mt-3 w-full border-b border-white/20 bg-transparent px-0 py-4 text-[20px] outline-none transition-colors placeholder:text-[#44413e] focus:border-[#ff3b16]"
+                  onChange={(event) =>
+                    setName(event.target.value)
+                  }
+                  placeholder="Student name"
+                  className="w-full border-b border-white/20 bg-transparent px-0 py-4 text-2xl outline-none transition-colors placeholder:text-[#333230] focus:border-[#ff3b16]"
                 />
               </div>
 
               {/* EMAIL */}
-              <div className="mt-10">
-                <label
-                  htmlFor="student-email"
-                  className="editorial-label text-[#a6a3a0]"
-                >
-                  EMAIL
+
+              <div>
+                <label className="editorial-label mb-3 block text-[#77736f]">
+                  Email
                 </label>
 
                 <input
-                  id="student-email"
                   type="email"
                   value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="john@example.com"
-                  required
-                  className="mt-3 w-full border-b border-white/20 bg-transparent px-0 py-4 text-[20px] outline-none transition-colors placeholder:text-[#44413e] focus:border-[#ff3b16]"
+                  onChange={(event) =>
+                    setEmail(event.target.value)
+                  }
+                  placeholder="student@example.com"
+                  className="w-full border-b border-white/20 bg-transparent px-0 py-4 text-2xl outline-none transition-colors placeholder:text-[#333230] focus:border-[#ff3b16]"
                 />
               </div>
 
               {/* ACTIVE */}
-              <label className="mt-10 flex cursor-pointer items-center gap-4">
-                <input
-                  type="checkbox"
-                  checked={active}
-                  onChange={(event) => setActive(event.target.checked)}
-                  className="h-4 w-4 accent-[#ff3b16]"
-                />
 
-                <span className="editorial-label text-[#a6a3a0]">
-                  ACTIVE STUDENT
-                </span>
-              </label>
+              <div>
 
-              {/* ERROR */}
-              {error && (
-                <div className="mt-8 border-l border-[#ff3b16] pl-4 text-[13px] leading-6 text-[#ff8b78]">
-                  {error}
-                </div>
-              )}
+                <label className="editorial-label mb-3 block text-[#77736f]">
+                  Status
+                </label>
 
-              {/* SUBMIT */}
-              <button
-                type="submit"
-                disabled={saving}
-                className="group mt-12 flex items-center gap-4 text-[12px] uppercase tracking-[0.12em] disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <span className="border-b border-[#f5f3f1] pb-2 transition-colors group-hover:border-[#ff3b16] group-hover:text-[#ff3b16]">
+                <button
+                  type="button"
+                  onClick={() => setActive(!active)}
+                  className="flex w-full items-center justify-between border border-white/15 px-5 py-4 text-left transition-colors hover:border-[#ff3b16]"
+                >
+
+                  <span className="text-sm">
+                    {active
+                      ? "Active"
+                      : "Inactive"}
+                  </span>
+
+                  <span
+                    className={
+                      active
+                        ? "h-3 w-3 rounded-full bg-[#ff3b16]"
+                        : "h-3 w-3 rounded-full border border-[#77736f]"
+                    }
+                  />
+
+                </button>
+
+              </div>
+
+              {/* BUTTONS */}
+
+              <div className="flex flex-col gap-3 border-t border-white/10 pt-8 sm:flex-row">
+
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="bg-[#ff3b16] px-8 py-4 text-xs uppercase tracking-[0.12em] text-[#050505] transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-50"
+                >
                   {saving
                     ? "Saving..."
-                    : editingStudentId
-                    ? "Save Changes"
-                    : "Add Student"}
-                </span>
+                    : editingStudent
+                    ? "Save changes"
+                    : "Create student"}
+                </button>
 
-                {!saving && (
-                  <span className="text-[#ff3b16] transition-transform duration-300 group-hover:translate-x-2">
-                    →
-                  </span>
+                {editingStudent && (
+                  <button
+                    type="button"
+                    onClick={cancelEditing}
+                    disabled={saving}
+                    className="border border-white/15 px-8 py-4 text-xs uppercase tracking-[0.12em] transition-colors hover:border-white/40"
+                  >
+                    Cancel
+                  </button>
                 )}
-              </button>
+
+              </div>
+
             </form>
           </section>
-        )}
 
-        {/* ERROR */}
-        {!showForm && error && (
-          <div className="mt-10 border-l border-[#ff3b16] pl-4 text-[13px] text-[#ff8b78]">
-            {error}
-          </div>
-        )}
+          {/* STUDENTS LIST */}
 
-        {/* LOADING */}
-        {loading && (
-          <div className="py-20 editorial-label text-[#66635f]">
-            Loading / STUDENTS
-          </div>
-        )}
+          <section>
 
-        {/* LIST */}
-        {!loading && (
-          <section className="mt-10">
-            {students.length === 0 ? (
-              <div className="border-t border-white/10 py-20 text-[#66635f]">
-                No students available.
+            <div className="mb-8 flex items-center justify-between border-b border-white/10 pb-5">
+
+              <div className="editorial-label text-[#66635f]">
+                Student directory
+              </div>
+
+              <div className="editorial-label text-[#66635f]">
+                {students.length} records
+              </div>
+
+            </div>
+
+            {loading ? (
+              <div className="py-16 text-sm uppercase tracking-[0.12em] text-[#66635f]">
+                Loading students...
+              </div>
+            ) : students.length === 0 ? (
+              <div className="border border-white/10 py-20 text-center">
+
+                <div className="editorial-label text-[#66635f]">
+                  No students
+                </div>
+
+                <p className="mt-4 text-sm text-[#77736f]">
+                  Create the first student above.
+                </p>
+
               </div>
             ) : (
-              students.map((student, index) => (
-                <div key={student.id} className="border-t border-white/10 py-8">
-                  <div className="grid grid-cols-[80px_1fr_300px_150px_220px] items-center gap-6">
-                    {/* NUMBER */}
-                    <span className="text-[12px] text-[#66635f]">
-                      {(index + 1).toString().padStart(2, "0")}
-                    </span>
+              <div className="divide-y divide-white/10">
+
+                {students.map((student) => (
+                  <article
+                    key={student.id}
+                    className="group grid grid-cols-1 gap-6 py-8 md:grid-cols-[80px_1fr_1fr_140px_180px] md:items-center"
+                  >
+
+                    {/* ID */}
+
+                    <div className="editorial-label text-[#44423f]">
+                      {String(student.id).padStart(2, "0")}
+                    </div>
 
                     {/* NAME */}
+
                     <div>
-                      <h2 className="text-[clamp(30px,4vw,58px)] tracking-[-0.05em]">
+
+                      <div className="text-xl tracking-[-0.02em]">
                         {student.name}
-                      </h2>
+                      </div>
+
                     </div>
 
                     {/* EMAIL */}
-                    <div className="text-[#a6a3a0]">
-                      <p className="text-[14px] break-all">{student.email}</p>
+
+                    <div className="text-sm text-[#77736f]">
+                      {student.email}
                     </div>
 
                     {/* STATUS */}
-                    <div
-                      className={`text-right editorial-label ${
-                        student.active ? "text-[#ff3b16]" : "text-[#66635f]"
-                      }`}
-                    >
-                      {student.active ? "ACTIVE" : "INACTIVE"}
+
+                    <div>
+
+                      <span
+                        className={
+                          student.active
+                            ? "inline-flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#ff3b16]"
+                            : "inline-flex items-center gap-2 text-xs uppercase tracking-[0.1em] text-[#66635f]"
+                        }
+                      >
+
+                        <span
+                          className={
+                            student.active
+                              ? "h-1.5 w-1.5 rounded-full bg-[#ff3b16]"
+                              : "h-1.5 w-1.5 rounded-full bg-[#55524f]"
+                          }
+                        />
+
+                        {student.active
+                          ? "Active"
+                          : "Inactive"}
+
+                      </span>
+
                     </div>
 
                     {/* ACTIONS */}
-                    <div className="flex justify-end gap-6">
+
+                    <div className="flex gap-4 md:justify-end">
+
                       <button
-                        onClick={() => startEditing(student)}
-                        className="text-[11px] uppercase tracking-[0.1em] text-[#a6a3a0] transition-colors hover:text-[#ff3b16]"
+                        type="button"
+                        onClick={() =>
+                          startEditing(student)
+                        }
+                        className="text-xs uppercase tracking-[0.1em] text-[#77736f] transition-colors hover:text-[#f5f3f1]"
                       >
                         Edit
                       </button>
 
                       <button
-                        onClick={() => handleDelete(student.id)}
-                        disabled={deletingId === student.id}
-                        className="text-[11px] uppercase tracking-[0.1em] text-[#66635f] transition-colors hover:text-[#ff3b16] disabled:opacity-40"
+                        type="button"
+                        onClick={() =>
+                          handleDelete(student)
+                        }
+                        className="text-xs uppercase tracking-[0.1em] text-red-400 transition-colors hover:text-red-300"
                       >
-                        {deletingId === student.id ? "Deleting..." : "Delete"}
+                        Delete
                       </button>
+
                     </div>
-                  </div>
-                </div>
-              ))
+
+                  </article>
+                ))}
+
+              </div>
             )}
 
-            <div className="border-t border-white/10" />
           </section>
-        )}
-      </div>
-    </main>
+
+        </div>
+      </main>
     </AuthGuard>
   );
 }
