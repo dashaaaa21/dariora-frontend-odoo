@@ -1,7 +1,9 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
+import Link from "next/link";
 import { apiFetch } from "@/lib/api";
+import AuthGuard from "@/components/AuthGuard";
 
 type Course = {
   id: number;
@@ -143,7 +145,8 @@ export default function CoursesPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-88px)] bg-[#050505] text-[#f5f3f1]">
+    <AuthGuard>
+      <main className="min-h-[calc(100vh-88px)] bg-[#050505] text-[#f5f3f1]">
       <div className="mx-auto max-w-[1360px] px-10 py-20">
 
         {/* HEADER */}
@@ -347,6 +350,13 @@ export default function CoursesPage() {
 
                     {/* ACTIONS */}
                     <div className="flex justify-end gap-6">
+                      <Link
+                        href={`/courses/${course.id}`}
+                        className="text-[11px] uppercase tracking-[0.1em] text-[#77736f] transition-colors hover:text-[#ff3b16]"
+                      >
+                        View course →
+                      </Link>
+
                       <button
                         onClick={() => startEditing(course)}
                         className="text-[11px] uppercase tracking-[0.1em] text-[#a6a3a0] transition-colors hover:text-[#ff3b16]"
@@ -372,5 +382,6 @@ export default function CoursesPage() {
         )}
       </div>
     </main>
+    </AuthGuard>
   );
 }

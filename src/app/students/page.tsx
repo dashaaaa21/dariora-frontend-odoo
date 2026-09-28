@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { apiFetch } from "@/lib/api";
+import AuthGuard from "@/components/AuthGuard";
 
 type Student = {
   id: number;
@@ -138,7 +139,8 @@ export default function StudentsPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-88px)] bg-[#050505] text-[#f5f3f1]">
+    <AuthGuard>
+      <main className="min-h-[calc(100vh-88px)] bg-[#050505] text-[#f5f3f1]">
       <div className="mx-auto max-w-[1360px] px-10 py-20">
 
         {/* HEADER */}
@@ -339,5 +341,6 @@ export default function StudentsPage() {
         )}
       </div>
     </main>
+    </AuthGuard>
   );
 }
