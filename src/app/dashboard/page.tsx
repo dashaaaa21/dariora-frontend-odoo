@@ -93,6 +93,13 @@ export default function DashboardPage() {
             <p className="mt-1 text-[12px] md:text-[13px] text-[#66635f]">
               {user.login}
             </p>
+
+            <button
+              onClick={handleLogout}
+              className="mt-6 text-[11px] uppercase tracking-[0.1em] text-[#66635f] transition-colors hover:text-[#ff3b16]"
+            >
+              Log out →
+            </button>
           </div>
 
         </div>

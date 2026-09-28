@@ -3,42 +3,28 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { login, password } = body;
+    const odooUrl = process.env.ODOO_URL || "http://localhost:8069";
 
-    console.log("=== LOGIN ATTEMPT ===");
-    console.log("Received login:", login);
-    console.log("Received password:", password);
-    console.log("Body:", body);
-
-    // Mock credentials for testing
-    const validCredentials = [
-      { login: "admin@dariora.com", password: "admin123" },
-      { login: "admin", password: "admin" },
-    ];
-
-    console.log("Valid credentials:", validCredentials);
-
-    const isValid = validCredentials.some((cred) => {
-      console.log(`Checking: "${cred.login}" === "${login}" && "${cred.password}" === "${password}"`);
-      return cred.login === login && cred.password === password;
+    const response = await fetch(`${odooUrl}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(body),
     });
 
-    console.log("Is valid:", isValid);
+    const data = await response.json();
 
-    if (!isValid) {
-      console.log("LOGIN FAILED - Invalid credentials");
-      return NextResponse.json(
-        { error: "Invalid email or password" },
-        { status: 401 }
-      );
+    const apiResponse = NextResponse.json(data, { status: response.status });
+    
+    // Forward cookies from Odoo
+    const setCookieHeader = response.headers.get("set-cookie");
+    if (setCookieHeader) {
+      apiResponse.headers.set("set-cookie", setCookieHeader);
     }
 
-    console.log("LOGIN SUCCESS");
-    return NextResponse.json({
-      success: true,
-      message: "Login successful",
-      user: { id: 2, name: "Administrator", login, email: login },
-    });
+    return apiResponse;
   } catch (error) {
     console.error("Login error:", error);
     return NextResponse.json(

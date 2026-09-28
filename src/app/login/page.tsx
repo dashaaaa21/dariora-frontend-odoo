@@ -8,7 +8,7 @@ import { apiFetch } from "@/lib/api";
 export default function LoginPage() {
   const router = useRouter();
 
-  const [login, setLogin] = useState("admin@dariora.com");
+  const [login, setLogin] = useState("admin");
   const [password, setPassword] = useState("admin123");
 
   const [loading, setLoading] = useState(false);
