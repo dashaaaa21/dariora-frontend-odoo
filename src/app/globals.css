@@ -17,6 +17,19 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Remove autofill styles */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+  box-shadow: 0 0 0 30px transparent inset !important;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: #f5f3f1 !important;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -86,6 +99,21 @@ body::before {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--steel-gray);
+}
+
+.editorial-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.display {
+  font-size: clamp(80px, 9vw, 145px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 button, [role="button"], .btn {
@@ -214,11 +242,11 @@ section {
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
+  gap: 16px;
 
-  height: 78px;
-  min-width: 365px;
-  padding: 6px 6px 6px 44px;
+  height: 52px;
+  min-width: 240px;
+  padding: 4px 4px 4px 28px;
 
   background: #F8F7F7;
   color: #171717;
@@ -227,7 +255,7 @@ section {
   border-radius: 9999px;
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-  font-size: 21px;
+  font-size: 14px;
   font-weight: 500;
   letter-spacing: -0.4px;
 
@@ -249,8 +277,8 @@ section {
   align-items: center;
   justify-content: center;
 
-  width: 66px;
-  height: 66px;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
 
   background: #080808;
@@ -282,13 +310,75 @@ section {
   outline-offset: 5px;
 }
 
+.btn-primary-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  height: 48px;
+  padding: 4px 4px 4px 24px;
+
+  background: #F8F7F7;
+  color: #171717;
+
+  border: 1px solid #FFFFFF;
+  border-radius: 9999px;
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+
+  cursor: pointer;
+  overflow: hidden;
+
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.btn-primary-sm:hover {
+  background: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.btn-primary-sm:hover .btn-primary__icon {
+  transform: rotate(45deg);
+  background: var(--neon-red);
+}
+
+.btn-primary-sm:active {
+  transform: scale(0.98);
+}
+
+.btn-primary-sm .btn-primary__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+
+  background: #080808;
+  color: #FFFFFF;
+
+  border-radius: 50%;
+
+  transition:
+    transform 0.4s cubic-bezier(.2,.8,.2,1),
+    background 0.3s ease;
+}
+
 .btn-secondary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  height: 78px;
-  min-width: 280px;
+  height: 52px;
+  min-width: 240px;
   padding: 0 44px;
 
   background: #171719;
@@ -298,7 +388,7 @@ section {
   border-radius: 9999px;
 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
-  font-size: 21px;
+  font-size: 14px;
   font-weight: 400;
   letter-spacing: -0.3px;
 
@@ -323,6 +413,50 @@ section {
 }
 
 .btn-secondary:focus-visible {
+  outline: 2px solid var(--electric-orange);
+  outline-offset: 5px;
+}
+
+.btn-secondary-sm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 48px;
+  padding: 0 24px;
+
+  background: #171719;
+  color: #E8E8E8;
+
+  border: 1px solid #363639;
+  border-radius: 9999px;
+
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: -0.3px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease,
+    transform 0.35s ease;
+}
+
+.btn-secondary-sm:hover {
+  background: #242426;
+  border-color: #777777;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.btn-secondary-sm:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary-sm:focus-visible {
   outline: 2px solid var(--electric-orange);
   outline-offset: 5px;
 }
@@ -352,5 +486,15 @@ section {
 
   .btn-secondary {
     min-width: 100%;
+  }
+
+  .btn-primary-sm {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-secondary-sm {
+    width: 100%;
+    justify-content: center;
   }
 }
