@@ -7,6 +7,7 @@ type Student = {
   id: number;
   name: string;
   email: string;
+  active?: boolean;
 };
 
 export default function StudentsPage() {
@@ -19,6 +20,7 @@ export default function StudentsPage() {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [active, setActive] = useState(true);
 
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -45,6 +47,7 @@ export default function StudentsPage() {
   function resetForm() {
     setName("");
     setEmail("");
+    setActive(true);
     setEditingStudentId(null);
     setShowForm(false);
   }
@@ -53,6 +56,7 @@ export default function StudentsPage() {
     setEditingStudentId(student.id);
     setName(student.name);
     setEmail(student.email);
+    setActive(student.active ?? true);
     setShowForm(true);
     setError("");
 
@@ -72,6 +76,7 @@ export default function StudentsPage() {
       const body = {
         name,
         email,
+        active,
       };
 
       if (editingStudentId !== null) {
@@ -211,6 +216,20 @@ export default function StudentsPage() {
                 />
               </div>
 
+              {/* ACTIVE */}
+              <label className="mt-10 flex cursor-pointer items-center gap-4">
+                <input
+                  type="checkbox"
+                  checked={active}
+                  onChange={(event) => setActive(event.target.checked)}
+                  className="h-4 w-4 accent-[#ff3b16]"
+                />
+
+                <span className="editorial-label text-[#a6a3a0]">
+                  ACTIVE STUDENT
+                </span>
+              </label>
+
               {/* ERROR */}
               {error && (
                 <div className="mt-8 border-l border-[#ff3b16] pl-4 text-[13px] leading-6 text-[#ff8b78]">
@@ -266,7 +285,7 @@ export default function StudentsPage() {
             ) : (
               students.map((student, index) => (
                 <div key={student.id} className="border-t border-white/10 py-8">
-                  <div className="grid grid-cols-[80px_1fr_300px_220px] items-center gap-6">
+                  <div className="grid grid-cols-[80px_1fr_300px_150px_220px] items-center gap-6">
                     {/* NUMBER */}
                     <span className="text-[12px] text-[#66635f]">
                       {(index + 1).toString().padStart(2, "0")}
@@ -282,6 +301,15 @@ export default function StudentsPage() {
                     {/* EMAIL */}
                     <div className="text-[#a6a3a0]">
                       <p className="text-[14px] break-all">{student.email}</p>
+                    </div>
+
+                    {/* STATUS */}
+                    <div
+                      className={`text-right editorial-label ${
+                        student.active ? "text-[#ff3b16]" : "text-[#66635f]"
+                      }`}
+                    >
+                      {student.active ? "ACTIVE" : "INACTIVE"}
                     </div>
 
                     {/* ACTIONS */}
