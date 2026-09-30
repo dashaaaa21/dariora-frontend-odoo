@@ -538,7 +538,7 @@ export default function Home() {
                 AI Tools
               </Link>
 
-              <Link href="/" className="hover:text-[var(--neon-red)] transition-colors duration-300">
+              <Link href="/about" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 About
               </Link>
 
