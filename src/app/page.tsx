@@ -177,7 +177,7 @@ export default function Home() {
       <div className="red-line" />
 
       {/* AI TOOLKIT */}
-      <section className="relative overflow-hidden border-t border-white/10 px-10 py-[170px] transition-all duration-700">
+      <section id="ai-toolkit" className="relative overflow-hidden border-t border-white/10 px-10 py-[170px] transition-all duration-700">
 
         <div className="pointer-events-none absolute right-0 top-0 h-[500px] w-[500px] bg-[var(--neon-red)]/10 blur-[140px]" />
 
@@ -266,7 +266,7 @@ export default function Home() {
       <div className="red-line" />
 
       {/* LEARNING PATH */}
-      <section className="border-t border-white/10 px-10 py-[150px] transition-all duration-700">
+      <section id="learning-path" className="border-t border-white/10 px-10 py-[150px] transition-all duration-700">
 
         <div className="mx-auto max-w-[1360px]">
 
@@ -534,9 +534,9 @@ export default function Home() {
                 Courses
               </Link>
 
-              <Link href="/" className="hover:text-[var(--neon-red)] transition-colors duration-300">
+              <a href="#ai-toolkit" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 AI Tools
-              </Link>
+              </a>
 
               <Link href="/about" className="hover:text-[var(--neon-red)] transition-colors duration-300">
                 About

@@ -9,7 +9,7 @@ export default function About() {
       {/* HERO SECTION */}
       <section className="relative h-[600px] w-full overflow-hidden flex items-center justify-center border-b border-white/10">
         <Image
-          src="/picture.png"
+          src="/globe.svg"
           alt="DARIORA About"
           fill
           className="object-cover"
@@ -147,11 +147,8 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             {/* Value 1 */}
-            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[380px] flex flex-col justify-between">
+            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[300px] flex flex-col justify-between">
               <div>
-                <div className="inline-block mb-6 p-3 bg-[var(--neon-red)]/10 rounded">
-                  <div className="text-2xl">🎯</div>
-                </div>
                 <h3 className="headline-small mb-6 group-hover:text-[var(--neon-red)] transition-colors">
                   Practical First
                 </h3>
@@ -160,18 +157,11 @@ export default function About() {
                   can be used immediately in real projects.
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[var(--neon-red)] group-hover:gap-4 transition-all">
-                <span className="text-sm uppercase tracking-widest">Learn more</span>
-                <span>→</span>
-              </div>
             </div>
 
             {/* Value 2 */}
-            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[380px] flex flex-col justify-between">
+            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[300px] flex flex-col justify-between">
               <div>
-                <div className="inline-block mb-6 p-3 bg-[var(--neon-red)]/10 rounded">
-                  <div className="text-2xl">🚀</div>
-                </div>
                 <h3 className="headline-small mb-6 group-hover:text-[var(--neon-red)] transition-colors">
                   Always Updated
                 </h3>
@@ -180,18 +170,11 @@ export default function About() {
                   keeping you ahead of the curve.
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[var(--neon-red)] group-hover:gap-4 transition-all">
-                <span className="text-sm uppercase tracking-widest">Learn more</span>
-                <span>→</span>
-              </div>
             </div>
 
             {/* Value 3 */}
-            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[380px] flex flex-col justify-between">
+            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[300px] flex flex-col justify-between">
               <div>
-                <div className="inline-block mb-6 p-3 bg-[var(--neon-red)]/10 rounded">
-                  <div className="text-2xl">🤝</div>
-                </div>
                 <h3 className="headline-small mb-6 group-hover:text-[var(--neon-red)] transition-colors">
                   Community Driven
                 </h3>
@@ -200,18 +183,11 @@ export default function About() {
                   Our community is at the heart of everything.
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[var(--neon-red)] group-hover:gap-4 transition-all">
-                <span className="text-sm uppercase tracking-widest">Learn more</span>
-                <span>→</span>
-              </div>
             </div>
 
             {/* Value 4 */}
-            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[380px] flex flex-col justify-between">
+            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[300px] flex flex-col justify-between">
               <div>
-                <div className="inline-block mb-6 p-3 bg-[var(--neon-red)]/10 rounded">
-                  <div className="text-2xl">🎓</div>
-                </div>
                 <h3 className="headline-small mb-6 group-hover:text-[var(--neon-red)] transition-colors">
                   Expert Instructors
                 </h3>
@@ -220,18 +196,11 @@ export default function About() {
                   Real experience, real insights.
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[var(--neon-red)] group-hover:gap-4 transition-all">
-                <span className="text-sm uppercase tracking-widest">Learn more</span>
-                <span>→</span>
-              </div>
             </div>
 
             {/* Value 5 */}
-            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[380px] flex flex-col justify-between">
+            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[300px] flex flex-col justify-between">
               <div>
-                <div className="inline-block mb-6 p-3 bg-[var(--neon-red)]/10 rounded">
-                  <div className="text-2xl">💰</div>
-                </div>
                 <h3 className="headline-small mb-6 group-hover:text-[var(--neon-red)] transition-colors">
                   Affordable Access
                 </h3>
@@ -240,18 +209,11 @@ export default function About() {
                   We make learning accessible to everyone.
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[var(--neon-red)] group-hover:gap-4 transition-all">
-                <span className="text-sm uppercase tracking-widest">Learn more</span>
-                <span>→</span>
-              </div>
             </div>
 
             {/* Value 6 */}
-            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[380px] flex flex-col justify-between">
+            <div className="glass p-10 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300 min-h-[300px] flex flex-col justify-between">
               <div>
-                <div className="inline-block mb-6 p-3 bg-[var(--neon-red)]/10 rounded">
-                  <div className="text-2xl">🌍</div>
-                </div>
                 <h3 className="headline-small mb-6 group-hover:text-[var(--neon-red)] transition-colors">
                   Global Impact
                 </h3>
@@ -260,92 +222,8 @@ export default function About() {
                   Building a global community of AI learners.
                 </p>
               </div>
-              <div className="flex items-center gap-2 text-[var(--neon-red)] group-hover:gap-4 transition-all">
-                <span className="text-sm uppercase tracking-widest">Learn more</span>
-                <span>→</span>
-              </div>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* RED LINE DIVIDER */}
-      <div className="red-line" />
-
-      {/* TEAM SECTION */}
-      <section className="relative min-h-[900px] border-b border-white/10 px-10 py-[120px] transition-all duration-700">
-        <div className="pointer-events-none absolute right-0 top-0 h-[600px] w-[600px] bg-[var(--neon-red)]/5 blur-[140px]" />
-        
-        <div className="mx-auto max-w-[1360px] relative z-10">
-          <div className="tech-label mb-8 text-[var(--neon-red)]">
-            OUR TEAM
-          </div>
-
-          <h2 className="headline-large mb-20">
-            MEET THE
-            <br />
-            PEOPLE BEHIND
-            <br />
-            <span className="text-[var(--neon-red)]">DARIORA</span>
-          </h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            
-            {/* Team Member 1 */}
-            <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300">
-              <div className="w-full h-48 bg-gradient-to-br from-[var(--neon-red)]/20 to-[var(--neon-red)]/5 rounded mb-6 flex items-center justify-center text-5xl group-hover:from-[var(--neon-red)]/30 transition-all">
-                👨‍💼
-              </div>
-              <h3 className="headline-small mb-2">Darii Kachenko</h3>
-              <p className="tech-label text-[var(--neon-red)] mb-4">Founder & CEO</p>
-              <p className="body-text text-sm">
-                AI enthusiast passionate about making complex concepts accessible to everyone.
-              </p>
-            </div>
-
-            {/* Team Member 2 */}
-            <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300">
-              <div className="w-full h-48 bg-gradient-to-br from-[var(--neon-red)]/20 to-[var(--neon-red)]/5 rounded mb-6 flex items-center justify-center text-5xl group-hover:from-[var(--neon-red)]/30 transition-all">
-                👩‍💻
-              </div>
-              <h3 className="headline-small mb-2">Coming Soon</h3>
-              <p className="tech-label text-[var(--neon-red)] mb-4">Lead Instructor</p>
-              <p className="body-text text-sm">
-                Industry expert with years of experience in AI and machine learning.
-              </p>
-            </div>
-
-            {/* Team Member 3 */}
-            <div className="glass p-8 rounded-lg group hover:bg-[var(--deep-charcoal)]/80 transition-all duration-300">
-              <div className="w-full h-48 bg-gradient-to-br from-[var(--neon-red)]/20 to-[var(--neon-red)]/5 rounded mb-6 flex items-center justify-center text-5xl group-hover:from-[var(--neon-red)]/30 transition-all">
-                👨‍🎨
-              </div>
-              <h3 className="headline-small mb-2">Coming Soon</h3>
-              <p className="tech-label text-[var(--neon-red)] mb-4">Content Designer</p>
-              <p className="body-text text-sm">
-                Creating engaging, visual learning experiences for all our courses.
-              </p>
-            </div>
-
-          </div>
-
-          <div className="mt-20 p-12 glass rounded-lg text-center">
-            <h3 className="headline-medium mb-6">
-              We're Growing!
-            </h3>
-            <p className="body-text max-w-[600px] mx-auto mb-8">
-              We're looking for talented individuals to join our team and help shape the future of AI education.
-            </p>
-            <button className="btn-primary">
-              <span className="btn-primary__label">View Open Positions</span>
-              <span className="btn-primary__icon">
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M7 17L17 7" />
-                  <path d="M7 7H17V17" />
-                </svg>
-              </span>
-            </button>
           </div>
         </div>
       </section>

@@ -48,26 +48,26 @@ export default function Navbar() {
             <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
           </Link>
 
-          <Link
-            href="/"
+          <a
+            href="/#ai-toolkit"
             className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
           >
             AI Tools
 
             <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
-          </Link>
+          </a>
 
-          <Link
-            href="/"
+          <a
+            href="/#learning-path"
             className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
           >
             Learn
 
             <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
-          </Link>
+          </a>
 
           <Link
-            href="/"
+            href="/about"
             className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
           >
             About
