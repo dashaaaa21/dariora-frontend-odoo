@@ -49,7 +49,7 @@ export default function Navbar() {
           </Link>
 
           <a
-            href="/#ai-toolkit"
+            href="/ai-tools"
             className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
           >
             AI Tools
@@ -58,7 +58,7 @@ export default function Navbar() {
           </a>
 
           <a
-            href="/#learning-path"
+            href="/learn"
             className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
           >
             Learn
