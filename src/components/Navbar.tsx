@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { NAV_ITEMS } from "@/lib/constants";
+import NavLink from "./NavLink";
+import { cn } from "@/lib/classNames";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,41 +27,13 @@ export default function Navbar() {
 
         {/* Navigation */}
         <nav className="hidden items-center gap-8 md:flex">
-          <Link
-            href="/courses"
-            className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
-          >
-            Courses
-
-            <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          <Link
-            href="/learn"
-            className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
-          >
-            Learn
-
-            <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
-          </Link>
-
-          <a
-            href="/ai-tools"
-            className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
-          >
-            AI Tools
-
-            <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
-          </a>
-
-          <Link
-            href="/about"
-            className="group relative text-[12px] uppercase tracking-[0.08em] text-[var(--steel-gray)] transition-colors duration-300 hover:text-[var(--pure-white)]"
-          >
-            About
-
-            <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--neon-red)] transition-all duration-300 group-hover:w-full" />
-          </Link>
+          {NAV_ITEMS.map((item) => (
+            <NavLink
+              key={item.href}
+              href={item.href}
+              label={item.label}
+            />
+          ))}
         </nav>
 
         {/* Right */}
